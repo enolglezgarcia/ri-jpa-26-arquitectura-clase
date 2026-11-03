@@ -1,21 +1,48 @@
 package uo.ri.cws.application.service.mechanic.crud.commands;
 
+import java.util.Optional;
+
+import uo.ri.conf.Factories;
+import uo.ri.cws.application.repository.MechanicRepository;
 import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
 import uo.ri.cws.application.util.command.Command;
+import uo.ri.cws.domain.Mechanic;
+import uo.ri.cws.domain.types.FullName;
+import uo.ri.cws.domain.types.Nif;
+import uo.ri.util.exception.BusinessChecks;
 import uo.ri.util.exception.BusinessException;
 
 public class UpdateMechanic implements Command<Void> {
 
-	private MechanicDto dto;
+    private MechanicDto dto;
+    private MechanicRepository repo = Factories.repository.forMechanic();
 
-	public UpdateMechanic(MechanicDto dto) {
-		this.dto = dto;
-	}
+    public UpdateMechanic(MechanicDto dto) {
+        this.dto = dto;
+    }
 
-	@Override
-	public Void execute() throws BusinessException {
+    @Override
+    public Void execute() throws BusinessException {
+        Optional<Mechanic> om = repo.findById(dto.id);
+        BusinessChecks.exists(om, "The mechanic does not exist");
+        Mechanic m = om.get();
+        BusinessChecks.hasVersion(dto.version, m.getVersion(), "Data out of date");
+        Nif nif = new Nif(dto.nif);
 
-		return null;
-	}
+        if (!nif.equals(m.getNif())) {
+            checkNifDoesNotExist(nif);
+            m.setNif(nif);
+        }
+        FullName fullname = new FullName(dto.name, dto.surname);
+        m.setNif(nif);
+        m.setFullName(fullname);
+        m.updatedNow();
+        return null;
+    }
+
+    private void checkNifDoesNotExist(Nif nif) throws BusinessException {
+        Optional<Mechanic> om = repo.findByNif(nif);
+        BusinessChecks.doesNotExist(om, "The mechanic is already registered");
+    }
 
 }
