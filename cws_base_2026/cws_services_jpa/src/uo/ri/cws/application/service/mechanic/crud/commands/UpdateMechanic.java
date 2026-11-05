@@ -9,6 +9,7 @@ import uo.ri.cws.application.util.command.Command;
 import uo.ri.cws.domain.Mechanic;
 import uo.ri.cws.domain.types.FullName;
 import uo.ri.cws.domain.types.Nif;
+import uo.ri.util.assertion.ArgumentChecks;
 import uo.ri.util.exception.BusinessChecks;
 import uo.ri.util.exception.BusinessException;
 
@@ -18,6 +19,11 @@ public class UpdateMechanic implements Command<Void> {
     private MechanicRepository repo = Factories.repository.forMechanic();
 
     public UpdateMechanic(MechanicDto dto) {
+        ArgumentChecks.isNotNull(dto, "The mechanic dto is null");
+        ArgumentChecks.isNotBlank(dto.nif, "The mechanic nif is null or empty");
+        ArgumentChecks.isNotBlank(dto.name, "The mechanic name is null or empty");
+        ArgumentChecks.isNotBlank(dto.surname, "The mechanic surname is null or empty");
+
         this.dto = dto;
     }
 

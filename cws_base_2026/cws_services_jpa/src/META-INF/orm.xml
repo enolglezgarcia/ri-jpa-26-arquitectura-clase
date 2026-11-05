@@ -31,6 +31,10 @@
 		<query> select m from Mechanic m where m.nif = ?1 </query>
 	</named-query>
 	
+	<named-query name="Mechanic.countInterventions">
+		<query> select count(i) from Intervention i where i.mechanic.id = ?1 </query>
+	</named-query>
+	
 	<!--  Invoice queries  -->
 	<named-query name="Invoice.findByNumber">
 		<query>select f from Invoice f where f.number = ?1</query>

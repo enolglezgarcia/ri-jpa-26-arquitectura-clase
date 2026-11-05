@@ -1,0 +1,3 @@
+[EL Info]: 2026.11.05 19:17:58.147--ServerSession(823101957)--EclipseLink, version: Eclipse Persistence Services - 5.0.0.v202603230926-bc4f4eb36eb1dcce223533d87890ba458628a2f9
+[EL Fine]: sql: 2026.11.05 19:17:58.363--ServerSession(823101957)--Connection(689218344)--SELECT ID, CREATEDAT, ENTITYSTATE, UPDATEDAT, VERSION, NAME, SURNAME, NIF FROM TMECHANICS WHERE (ID = ?)
+	bind => [b08f7da2-b351-4a16-bdf6-376c6da28c00]

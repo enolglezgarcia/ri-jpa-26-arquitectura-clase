@@ -8,6 +8,7 @@ import uo.ri.cws.application.service.mechanic.MechanicCrudService.MechanicDto;
 import uo.ri.cws.application.service.mechanic.crud.DtoAssembler;
 import uo.ri.cws.application.util.command.Command;
 import uo.ri.cws.domain.Mechanic;
+import uo.ri.util.assertion.ArgumentChecks;
 import uo.ri.util.exception.BusinessException;
 
 public class FindMechanicById implements Command<Optional<MechanicDto>> {
@@ -15,6 +16,7 @@ public class FindMechanicById implements Command<Optional<MechanicDto>> {
     private MechanicRepository repo = Factories.repository.forMechanic();
 
     public FindMechanicById(String id) {
+        ArgumentChecks.isNotBlank(id, "Mechanic id cannot be null or blank");
         this.id = id;
     }
 
